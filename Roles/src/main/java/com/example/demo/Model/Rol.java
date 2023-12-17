@@ -14,7 +14,6 @@ import lombok.Data;
  *
  * @author marti
  */
-
 @Entity
 @Data
 public class Rol {
