@@ -4,10 +4,9 @@
  */
 package com.example.demo.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import java.util.Set;
-import lombok.Data;
+import lombok.*;
 
 /**
  *
@@ -15,11 +14,13 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class Usuario {
+@AllConstructor
+@NoAllConstructor
+public class User  {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_usuario;
     private String nombre_usuario;
     private String contrasena_usuario;
-    @OneToMany
-    private Set<Rol> roles;
 }
