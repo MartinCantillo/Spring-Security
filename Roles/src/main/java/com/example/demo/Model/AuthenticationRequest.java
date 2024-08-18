@@ -4,30 +4,30 @@ package com.example.demo.Model;
 
 public class AuthenticationRequest {
 
-    private string username;
-    private string password;
+    private String username;
+    private String password;
 
     public AuthenticationRequest() {
     }
 
-    public AuthenticationRequest(string username, string password) {
+    public AuthenticationRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public string getUsername() {
+    public String getUsername() {
         return this.username;
     }
 
-    public void setUsername(string username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public string getPassword() {
+    public String getPassword() {
         return this.password;
     }
 
-    public void setPassword(string password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

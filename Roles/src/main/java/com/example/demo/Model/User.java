@@ -5,7 +5,6 @@
 package com.example.demo.Model;
 
 import jakarta.persistence.*;
-import java.util.Set;
 import lombok.*;
 
 /**
@@ -14,13 +13,13 @@ import lombok.*;
  */
 @Entity
 @Data
-@AllConstructor
-@NoAllConstructor
-public class User  {
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_usuario;
-    private String nombre_usuario;
-    private String contrasena_usuario;
+    private long id;
+    private String username;
+    private String password;
 }
