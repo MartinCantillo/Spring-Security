@@ -1,10 +1,12 @@
 package com.example.demo.util;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.function.Function;
-
+import java.util.Map;
 @Service
 public class JwtUtil {
 
@@ -39,15 +41,23 @@ public class JwtUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Método para generar un token (aquí se pude  personalizar los claims y el tiempo de expiración)
-    public String generateToken(String username) {
+    //metodo para generar el token 
+     public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, userDetails.getUsername());
+    }
+
+    // Método para crear un token (aquí se pude  personalizar los claims y el tiempo de expiración)
+    private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setSubject(username)
+                .setClaims(claims)
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
+    
 
     // Método para validar el token
     public Boolean validateToken(String token, String username) {

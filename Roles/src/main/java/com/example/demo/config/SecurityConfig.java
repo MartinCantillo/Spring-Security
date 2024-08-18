@@ -20,7 +20,8 @@ import org.springframework.security.config.Customizer;
 /**
  * Configuración de seguridad de Spring.
  * 
- * Configura la seguridad de la aplicación, incluyendo la autenticación y autorización,
+ * Configura la seguridad de la aplicación, incluyendo la autenticación y
+ * autorización,
  * así como el manejo de tokens JWT.
  */
 @Configuration
@@ -52,20 +53,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configura la protección CSRF utilizando la configuración predeterminada.
-        http.csrf(Customizer.withDefaults())
-            // Configura las reglas de autorización para las solicitudes HTTP.
-            .authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                    .requestMatchers("/api/register", "/api/login").permitAll() // Permite el acceso sin autenticación
-                    .anyRequest().authenticated() // Requiere autenticación para todas las demás rutas
-            )
-            // Configura la gestión de sesiones.
-            .sessionManagement(sessionManagement ->
-                sessionManagement
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Estado de sesión sin estado
-            )
-            // Añade un filtro personalizado para procesar JWT antes del filtro de autenticación estándar de Spring Security.
-            .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+        http
+                .csrf(csrf -> csrf
+                        .disable())
+
+                // Configura las reglas de autorización para las solicitudes HTTP.
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/api/register", "/api/login", "/api/welcome").permitAll() // Permite el acceso
+                                                                                                    // sin autenticación
+                        .anyRequest().authenticated() // Requiere autenticación para todas las demás rutas
+                )
+                // Configura la gestión de sesiones.
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Estado de sesión sin estado
+                )
+                // Añade un filtro personalizado para procesar JWT antes del filtro de
+                // autenticación estándar de Spring Security.
+                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // Construye y devuelve el SecurityFilterChain configurado.
         return http.build();
